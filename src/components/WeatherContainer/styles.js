@@ -10,6 +10,7 @@ export default makeStyles(theme => ({
     justifyContent: "space-between",
     alignItems: "center",
     minHeight: "200px",
+    position: "relative",
   },
   card: {
     display: "flex",
@@ -55,5 +56,8 @@ export default makeStyles(theme => ({
   },
   like: {
     color: "red",
+    position: "absolute",
+    top: "12px",
+    right: "12px",
   },
 }));

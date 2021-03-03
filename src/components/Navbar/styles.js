@@ -4,18 +4,18 @@ export default makeStyles(theme => ({
   navbar: {
     position: "fixed",
     zIndex: "10",
-    backgroundColor: "transparent",
     height: "120px",
     display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    width: "100%",
+    alignItems: "center",
+    width: "100vw",
     boxSizing: "border-box",
+    padding: "0 24px",
     background:
       "linear-gradient(180deg, rgba(43,75,149,1) 12%, rgba(178,176,223,1) 100%)",
     [theme.breakpoints.up("md")]: {
       height: "80px",
     },
+    [theme.breakpoints.down("md")]: {},
   },
   dark: {
     background:
@@ -48,6 +48,7 @@ export default makeStyles(theme => ({
     textDecoration: "none",
     color: "inherit",
     position: "relative",
+    display: "flex",
   },
   navbar_logo: {
     height: "100%",
@@ -63,14 +64,41 @@ export default makeStyles(theme => ({
     },
   },
   navLinks: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "8px",
     [theme.breakpoints.up("md")]: {
-      display: "flex",
       gap: "48px",
+      flexDirection: "row",
+      justifyContent: "space-between",
     },
   },
   fav_count: {
     color: "inherit",
-    fontSize: "20px",
+    fontSize: "14px",
     fontWeight: "bold",
+    marginLeft: "6px",
+    backgroundColor: "red",
+    height: "18px",
+    width: "18px",
+    borderRadius: "50px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  navbar_icon: {
+    display: "none",
+    [theme.breakpoints.down("xs")]: {
+      display: "block",
+    },
+  },
+  navbar_link: {
+    display: "block",
+    [theme.breakpoints.down("xs")]: {
+      display: "none",
+    },
   },
 }));

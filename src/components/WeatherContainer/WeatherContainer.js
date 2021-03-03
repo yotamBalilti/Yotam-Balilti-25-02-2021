@@ -3,7 +3,7 @@ import clsx from "clsx";
 import useStyles from "./styles";
 import { Card, CardContent, Grid, Slide, Typography } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
-import { addFavorite, removeFavorite } from "../../actions";
+import { addFavorite, removeFavorite, toggleLoading } from "../../actions";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -32,17 +32,15 @@ const darkTheme = createMuiTheme({
 
 const WeatherContainer = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const dailyForecasts = useSelector(state => state.weather.forecasts);
-  const currentWeather = useSelector(state => state.weather.current);
   const location = useSelector(state => state.location);
+  const currentWeather = useSelector(state => state.weather.current);
   const favorites = useSelector(state => state.favorites);
   const isMetric = useSelector(state => state.isMetric);
   const isDarkMode = useSelector(state => state.isDark);
   const isLoading = useSelector(state => state.isLoading);
-  // const isDayTime = currentWeather.IsDayTime ? "Day" : "Night";
-
-  const dispatch = useDispatch();
 
   const epochToDay = epochDate => {
     return new Date(epochDate).toLocaleDateString("en-US", { weekday: "long" });
@@ -61,7 +59,6 @@ const WeatherContainer = () => {
             </Typography>
             <Typography>{location.country}</Typography>
           </Grid>
-
           <Grid item align="center" xs>
             <Typography className={classes.icon}>
               <img
@@ -96,54 +93,68 @@ const WeatherContainer = () => {
             )}
           </Grid>
         </Grid>
-        {dailyForecasts.map((day, i) => (
-          <Slide direction="right" in mountOnEnter unmountOnExit key={i}>
-            {dailyForecasts && (
-              <Grid item xs={12} sm>
-                <Slide
-                  direction="right"
-                  in
-                  mountOnEnter
-                  unmountOnExit
-                  key={i}
-                  timeout={400 * i}
-                >
-                  <Card key={i}>
-                    <CardContent
-                      className={
-                        !isDarkMode
-                          ? classes.card
-                          : clsx(classes.card, classes.dark_card)
-                      }
-                    >
-                      <Typography variant="h6">
-                        {epochToDay(day.Date)}
-                      </Typography>
-                      <div className={classes.card_weather}>
-                        <Typography className={classes.forecast_icon}>
-                          <img
-                            // src={`/icons/icon${day[isDayTime].Icon}.png`}
-                            alt=""
-                          />
+        {dailyForecasts &&
+          dailyForecasts.map((day, i) => (
+            <Slide direction="right" in mountOnEnter unmountOnExit key={i}>
+              {dailyForecasts && (
+                <Grid item xs={12} sm>
+                  <Slide
+                    direction="right"
+                    in
+                    mountOnEnter
+                    unmountOnExit
+                    key={i}
+                    timeout={400 * i}
+                  >
+                    <Card key={i}>
+                      <CardContent
+                        className={
+                          !isDarkMode
+                            ? classes.card
+                            : clsx(classes.card, classes.dark_card)
+                        }
+                      >
+                        <Typography variant="h6">
+                          {epochToDay(day.Date)}
                         </Typography>
-                        {/* <Typography>{day[isDayTime].IconPhrase}</Typography> */}
-                      </div>
-                      <Typography variant="h5" className={classes.card_temp}>
-                        {isMetric
-                          ? `${Math.round(day.Temperature.Maximum.Value)}°C -
+                        {currentWeather.isDayTime ? (
+                          <div className={classes.card_weather}>
+                            <Typography className={classes.forecast_icon}>
+                              <img
+                                src={`/icons/icon${day["Day"].Icon}.png`}
+                                alt=""
+                              />
+                            </Typography>
+                            <Typography>{day["Day"].IconPhrase}</Typography>
+                          </div>
+                        ) : (
+                          <div className={classes.card_weather}>
+                            <Typography className={classes.forecast_icon}>
+                              <img
+                                src={`/icons/icon${day["Night"].Icon}.png`}
+                                alt=""
+                              />
+                            </Typography>
+                            <Typography>{day["Night"].IconPhrase}</Typography>
+                          </div>
+                        )}
+
+                        <Typography variant="h5" className={classes.card_temp}>
+                          {isMetric
+                            ? `${Math.round(day.Temperature.Maximum.Value)}°C -
                              ${Math.round(day.Temperature.Minimum.Value)}°C`
-                          : convert(
-                              day.Temperature.Maximum.Value,
-                              day.Temperature.Minimum.Value
-                            )}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Slide>
-              </Grid>
-            )}
-          </Slide>
-        ))}
+                            : convert(
+                                day.Temperature.Maximum.Value,
+                                day.Temperature.Minimum.Value
+                              )}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Slide>
+                </Grid>
+              )}
+            </Slide>
+          ))}
       </Grid>
     </ThemeProvider>
   );

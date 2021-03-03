@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_KEY = "pmAtko3VXINIcIPEZKcHAI7swRi0FpPJ";
+const API_KEY = "XaUIjiUT3lu5kYS8GYEDs1mDAQAsxIYQ";
 const ROOT_URL = "https://dataservice.accuweather.com";
 
 // Get location RAW DATA { key, cityName } By GEO LOCATION (if accepted) => after: auto excute getWeather()

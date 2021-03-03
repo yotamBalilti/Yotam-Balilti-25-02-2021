@@ -1,4 +1,4 @@
-const metricReducer = (state = false, action) => {
+const metricReducer = (state = true, action) => {
   switch (action.type) {
     case "CONVERT_TEMPERATURE_UNITS":
       return !state;

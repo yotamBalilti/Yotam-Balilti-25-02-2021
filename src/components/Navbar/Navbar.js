@@ -21,13 +21,20 @@ const Navbar = () => {
 
   const links = (
     <div className={classes.navLinks}>
+      <Typography className={classes.navbar_logo}>WeatherApp</Typography>
       <div className={classes.navbar_list}>
         <NavLink to="/" className={classes.navbar_list_item}>
-          <HomeIcon fontSize="large" />
+          <HomeIcon fontSize="large" className={classes.navbar_icon} />
+          <Typography variant="h5" className={classes.navbar_link}>
+            Home
+          </Typography>
         </NavLink>
 
         <NavLink to="/favorites" className={classes.navbar_list_item}>
-          <FavoriteIcon fontSize="large" />
+          <FavoriteIcon fontSize="large" className={classes.navbar_icon} />
+          <Typography variant="h5" className={classes.navbar_link}>
+            Favorites
+          </Typography>
           <span className={classes.fav_count}>{favorites.length}</span>
         </NavLink>
       </div>
@@ -65,17 +72,13 @@ const Navbar = () => {
   );
 
   return (
-    <Grid
-      container
+    <div
       className={
         !isDarkMode ? classes.navbar : clsx(classes.navbar, classes.dark)
       }
     >
-      <Grid item className={classes.navbar_container}>
-        <Typography className={classes.navbar_logo}>WeatherApp</Typography>
-        <div className={classes.navbar_links}>{links}</div>
-      </Grid>
-    </Grid>
+      <div className={classes.navbar_links}>{links}</div>
+    </div>
   );
 };
 

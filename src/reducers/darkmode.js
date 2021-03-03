@@ -1,4 +1,4 @@
-const darkModeReducer = (state = true, action) => {
+const darkModeReducer = (state = false, action) => {
   switch (action.type) {
     case "SET_DARK_MODE":
       return !state;

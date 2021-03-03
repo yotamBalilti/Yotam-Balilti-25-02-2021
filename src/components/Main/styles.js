@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import lightBg from "../../assets/2850815.jpg";
-import darkBg from "../../assets/1081629.png";
+import lightBg from "../../assets/lightBg.jpg";
+import darkBg from "../../assets/darkBg.jpg";
 
 export default makeStyles(theme => ({
   main: {
@@ -9,8 +9,6 @@ export default makeStyles(theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    // justifyContent: "space-evenly",
-    // border: "1px solid blue",
     background: `url(${lightBg}) center no-repeat`,
     backgroundSize: "cover",
     backgroundAttachment: "fixed",
@@ -18,8 +16,11 @@ export default makeStyles(theme => ({
     "&::-webkit-scrollbar": {
       display: "none",
     },
-    padding: "24px",
-    paddingTop: "100px",
+    // padding: "24px",
+    padding: "100px 24px",
+    [theme.breakpoints.down("sm")]: {
+      padding: "160px 24px",
+    },
   },
   dark: {
     background: `url(${darkBg}) center no-repeat`,

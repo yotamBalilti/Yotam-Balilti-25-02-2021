@@ -1,29 +1,36 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import React, { useEffect } from "react";
 import Navbar from "./components/Navbar/Navbar";
-import Main from "./components/Main/Main";
-import Favorites from "./components/Favorites/Favorites";
+import Routes from "./routes";
 
 import "./App.css";
-
 //Redux
-import { Provider } from "react-redux";
-import store from "./store";
+import { useDispatch } from "react-redux";
+import { getLocation, getLocationKeyByGEO } from "./actions/weather";
+import { toggleLoading } from "./actions";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      position =>
+        dispatch(
+          getLocationKeyByGEO(
+            position.coords.latitude,
+            position.coords.longitude
+          )
+        ),
+      err => {
+        dispatch(getLocation("Tel Aviv"));
+      }
+    );
+  }, [dispatch]);
+
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <div className="app">
-          <Navbar />
-          <Switch>
-            <Route exact path="/" component={Main} />
-            <Route path="/favorites" component={Favorites} />
-          </Switch>
-        </div>
-      </BrowserRouter>
-    </Provider>
+    <div className="app">
+      <Navbar />
+      <Routes />
+    </div>
   );
 };
 
